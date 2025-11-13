@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 // Your Project's Data Class (assuming 'Joke.kt' is in this package)
-import ph.edu.comteq.jokesclientapi.Joke
+import ph.edu.comteq.jokesclientapi.joke
 
 // Java Exception Import (for the catch block)
 import java.lang.Exception
@@ -19,7 +19,7 @@ import java.lang.Exception
 sealed class JokesUIState {
     object Idle : JokesUIState()
     object Loading : JokesUIState()
-    data class Success(val jokes: List<Joke>) : JokesUIState()
+    data class Success(val jokes: List<joke>) : JokesUIState()
     data class Error(val message: String) : JokesUIState()
 }
 
@@ -47,7 +47,7 @@ class JokesViewModel : ViewModel() {
     fun addJoke(setup: String, punchline: String) {
         viewModelScope.launch {
             try {
-                val newJoke = Joke(setup = setup, punchline = punchline)
+                val newJoke = joke(setup = setup, punchline = punchline)
                 api.addJokes(newJoke)
                 // After successfully adding, refresh the jokes list
                 get_Jokes()
@@ -77,9 +77,9 @@ class JokesViewModel : ViewModel() {
     fun updateJoke(id: Int, setup: String, punchline: String) {
         viewModelScope.launch {
             try {
-                val updatedJoke = Joke(id = id, setup = setup, punchline = punchline)
+                val updatedJoke = joke(id = id, setup = setup, punchline = punchline)
                 api.updateJoke(id, updatedJoke)
-                get_Jokes() // Refresh the list to show the updated joke
+                get_Jokes()
             } catch (e: Exception) {
                 _uistate.value = JokesUIState.Error(
                     e.message ?: "Unknown error while updating joke"
