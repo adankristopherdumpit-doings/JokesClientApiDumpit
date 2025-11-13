@@ -82,7 +82,7 @@ class JokesViewModel : ViewModel() {
                 get_Jokes() // Refresh the list to show the updated joke
             } catch (e: Exception) {
                 _uistate.value = JokesUIState.Error(
-                    e.message ?: "Unknown error while updating joke, Try Again"
+                    e.message ?: "Unknown error while updating joke"
                 )
             }
         }
